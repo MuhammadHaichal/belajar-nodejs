@@ -1,8 +1,6 @@
 const express = require('express')
 const bodyParser = require('body-parser')
-
-const db = require('./database')
-
+const router = require('./route/app')
 
 const port = 3000
 const app = express()
@@ -13,62 +11,18 @@ const app = express()
 app.set('views', 'src/views')
 app.set('view engine', 'ejs')
 
-// setting body-parser
-const urlencoded = bodyParser.urlencoded({ extended: true })
-const bodyjson = bodyParser.json()
+// setting bodyParser
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-
-
-// select data
-// ===========
-app.get('/', (req, res) => {
-   const sql = 'SELECT * FROM karyawan'
-
-   db.query(sql, (err, result) => {
-      if (err) {
-         console.log(err);
-      }
-      else {
-         const parse = JSON.parse(JSON.stringify(result))
-         res.render('index', { 'hasil': parse, 'title': 'data karyawan' })
-      }
-   })
-})
-
-
-
-// insert data 
-// ===========
-
-app.get('/add', (req, res) => {
-   res.render('tambahData', { 'title': 'tambah data karyawan' })
-})
-
-
-app.post('/tambahJson', urlencoded, (req, res) => {
-
-   const sql = `INSERT INTO karyawan(nama, umur) VALUES ( '${req.body.nama}', ${req.body.umur})`
-
-   db.query(sql, (err, result) => {
-      if (err) {
-         res.redirect('/add')
-         console.log(err);
-      }
-      else {
-         res.redirect('/')
-      }
-   })
-
-})
-
-
-
+// setting route page
+app.use('/', router)
 
 // server development
 // ==================
 app.listen(port, (err) => {
-   if (err) {
-      console.err(err);
-   }
-   console.log('server running on http://localhost:3000/');
+    if (err) {
+        console.err(err);
+    }
+    console.log('server running on http://localhost:3000/');
 })
