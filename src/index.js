@@ -1,4 +1,6 @@
 const express = require('express')
+const bodyParser = require('body-parser')
+
 const db = require('./database')
 
 
@@ -6,9 +8,14 @@ const port = 3000
 const app = express()
 
 
+
+// setting templating 
 app.set('views', 'src/views')
 app.set('view engine', 'ejs')
 
+// setting body-parser
+const urlencoded = bodyParser.urlencoded({ extended: true })
+const bodyjson = bodyParser.json()
 
 
 
@@ -16,9 +23,15 @@ app.set('view engine', 'ejs')
 // ===========
 app.get('/', (req, res) => {
    const sql = 'SELECT * FROM karyawan'
+
    db.query(sql, (err, result) => {
-      const parse = JSON.parse(JSON.stringify(result))
-      res.render('index', {'hasil' : parse, 'title' : 'data karyawan'})
+      if (err) {
+         console.log(err);
+      }
+      else {
+         const parse = JSON.parse(JSON.stringify(result))
+         res.render('index', { 'hasil': parse, 'title': 'data karyawan' })
+      }
    })
 })
 
@@ -26,15 +39,27 @@ app.get('/', (req, res) => {
 
 // insert data 
 // ===========
-app.post('/add', (req, res) => {
-   const sql = `INSERT INTO karyawan(nama, umur) VALUES ('ehsan Fadilah', 18)`
-   db.query(sql, (err, result) => {
-      const parse = JSON.parse(JSON.stringify(result))
 
-      res.send('ok berhasil add data')
-   })
+app.get('/add', (req, res) => {
+   res.render('tambahData', { 'title': 'tambah data karyawan' })
 })
 
+
+app.post('/tambahJson', urlencoded, (req, res) => {
+
+   const sql = `INSERT INTO karyawan(nama, umur) VALUES ( '${req.body.nama}', ${req.body.umur})`
+
+   db.query(sql, (err, result) => {
+      if (err) {
+         res.redirect('/add')
+         console.log(err);
+      }
+      else {
+         res.redirect('/')
+      }
+   })
+
+})
 
 
 

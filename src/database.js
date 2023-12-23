@@ -2,18 +2,18 @@ const mysql = require('mysql2')
 const env = require('dotenv').config()
 
 
-
+// kredensial 
 const rahasia = {
-	'user' : process.env.user,
-	'password' : process.env.password,
-	'databases' : process.env.database,
-	'host' : process.env.host,
-	'port' : process.env.port,
+   'user': process.env.user,
+   'password': process.env.password,
+   'database': process.env.database,
+   'host': process.env.host,
+   'port': process.env.port,
 
 }
 
 
-// server koneksi database mysql
+// konfigurasi server koneksi database mysql
 const db = mysql.createConnection({
    user: rahasia.user,
    password: rahasia.password,
@@ -22,6 +22,8 @@ const db = mysql.createConnection({
    port: rahasia.port,
 })
 
+
+// periksa kondisi jika server sedang error atau down
 db.connect((err) => {
    if (err) {
       console.log(`gagal terhubung ke database { eror_log: ${err}}`);
