@@ -61,6 +61,21 @@ router.post('/tambahJson', urlencoded, (req, res) => {
 })
 
 
+// delete data 
+// ============
+
+router.get('/delete/:id', (req,res) => {
+    const sql = `DELETE FROM karyawan WHERE nama = ${req.params.id}`
+    
+    db.query(sql, (err, result) => {
+        if (err) {
+            console.log('err');
+        }
+        else {
+            res.redirect('/')
+        }
+    })
+})  
 
 
 module.exports = router;
