@@ -11,12 +11,15 @@ const app = express()
 app.set('views', 'src/views')
 app.set('view engine', 'ejs')
 
+
 // setting bodyParser
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+
 // setting route page
 app.use('/', router)
+
 
 // server development
 // ==================
