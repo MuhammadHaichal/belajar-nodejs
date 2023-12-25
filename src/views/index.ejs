@@ -16,7 +16,27 @@
    <body>
       <div class="container mt-5 d-flex justify-content-center align-items-center flex-column">
          <table class="table">
-           <h1> DATA KARYAWAN </h1>
+           
+           <h1 class="text-left"> DATA KARYAWAN </h1>
+           
+      
+           
+           <div class="mb-3 container form-row">
+               <!-- tombol adding user -->
+               <div class="col-sm-7">
+                   <a class="btn btn-primary" href="/add">ADD ➕</a>
+               </div>
+               <div class="col-sm-5">
+                   <form method="post" action="/">
+                        <div class="row gap-3">
+                            <input type="text" name="getDataUser" class="form-control mr-1" aria-label="Recipient's username" required aria-describedby="basic-addon2">
+                            <button class="btn btn-primary" type="submit">Search </button>
+                        </div>
+                   </form>
+               </div>
+           </div>
+           
+           
            <thead>
              <tr>
                <th scope="col">ID</th>

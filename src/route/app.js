@@ -34,9 +34,18 @@ router.get('/', (req, res) => {
 
 })
 
+router.post('/', urlencoded,(req,res) => {
+    const sql = `SELECT * FROM karyawan WHERE nama = '${req.body.getDataUser}'`
+    
+    db.query(sql, (err, result) => {
+        console.log(result)
+        res.render('index', {'hasil': result, 'title': 'data karyawan'})
+    })
+})
 
 
-// insert data 
+
+// insert data *
 // ===========
 
 router.get('/add', (req, res) => {
@@ -44,7 +53,7 @@ router.get('/add', (req, res) => {
 })
 
 
-router.post('/tambahJson', urlencoded, (req, res) => {
+router.post('/add', urlencoded, (req, res) => {
 
     const sql = `INSERT INTO karyawan(nama, umur) VALUES ( '${req.body.nama}', ${req.body.umur})`
 
