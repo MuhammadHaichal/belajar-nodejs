@@ -65,11 +65,11 @@ router.post('/tambahJson', urlencoded, (req, res) => {
 // ============
 
 router.get('/delete/:id', (req,res) => {
-    const sql = `DELETE FROM karyawan WHERE nama = ${req.params.id}`
+    const sql = `DELETE FROM karyawan WHERE id = ${req.params.id}`
     
     db.query(sql, (err, result) => {
         if (err) {
-            console.log('err');
+            console.log(err);
         }
         else {
             res.redirect('/')
