@@ -17,8 +17,8 @@ const bodyjson = bodyParser.json()
 router.get('/', (req, res) => {
     const sql = 'SELECT * FROM karyawan'
     db.query(sql, (err, result) => {
-        if (err) {
-            console.log(err);
+        if (err == null) {
+            console.log('maaf tidak ada data karyawan');
         }
         else {
             const parse = JSON.parse(JSON.stringify(result))
@@ -37,7 +37,7 @@ router.post('/', urlencoded, (req, res) => {
             res.render('index', { 'hasil': result, 'title': 'data karyawan' })
         }
     })
-})
+}):==
 
 
 
