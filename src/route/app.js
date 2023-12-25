@@ -1,8 +1,7 @@
 const bodyParser = require('body-parser')
 const express = require('express')
 const router = express.Router()
-
-
+let validator = require('validator')
 const db = require('../database')
 
 // setting body-parser
@@ -11,17 +10,12 @@ const bodyjson = bodyParser.json()
 
 
 
-// router.use((req,res,next) => {
-//     console.log('hello');
-//     next()
-// })
 
 
 // select data
 // ===========
 router.get('/', (req, res) => {
     const sql = 'SELECT * FROM karyawan'
-
     db.query(sql, (err, result) => {
         if (err) {
             console.log(err);
@@ -31,51 +25,79 @@ router.get('/', (req, res) => {
             res.render('index', { 'hasil': parse, 'title': 'data karyawan' })
         }
     })
-
 })
 
-router.post('/', urlencoded,(req,res) => {
+router.post('/', urlencoded, (req, res) => {
     const sql = `SELECT * FROM karyawan WHERE nama = '${req.body.getDataUser}'`
-    
     db.query(sql, (err, result) => {
-        console.log(result)
-        res.render('index', {'hasil': result, 'title': 'data karyawan'})
+        if (err == null) {
+            console.log('data tidak ditemukan');
+        }
+        else {
+            res.render('index', { 'hasil': result, 'title': 'data karyawan' })
+        }
     })
 })
 
 
 
-// insert data *
+// insert data 
 // ===========
-
 router.get('/add', (req, res) => {
-    res.render('tambahData', { 'title': 'tambah data karyawan' })
+    let title = 'TAMBAH KARYAWAN';
+    res.render('tambahData', {
+        'title': title,
+        'errMsgNama': '',
+        'errMsgUmur': '',
+    })
 })
 
 
 router.post('/add', urlencoded, (req, res) => {
+    let title = 'TAMBAH KARYAWAN';
+    const getName = req.body.nama;
+    const getUmur = req.body.umur;
 
-    const sql = `INSERT INTO karyawan(nama, umur) VALUES ( '${req.body.nama}', ${req.body.umur})`
+    if (validator.isEmpty(getName)) {
+        res.render('tambahData', {
+            'title': title,
+            'errMsgNama': 'd-block',
+            'errMsgUmur': 'd-block',
+        })
+    }
 
-    db.query(sql, (err, result) => {
-        if (err) {
-            res.redirect('/add')
-            console.log(err);
-        }
-        else {
-            res.redirect('/')
-        }
-    })
-
+    else if (validator.isEmpty(getUmur)) {
+        res.render('tambahData', {
+            'title': title,
+            'errMsgUmur': 'd-block',
+            'errMsgNama': 'd-block',
+        })
+    }
+    
+    else {
+        const sql = `INSERT INTO karyawan(nama, umur) VALUES ( '${req.body.nama}', ${req.body.umur})`
+        db.query(sql, (err, result) => {
+            if (err) {
+                res.render('tambahData', {
+                    'title': title,
+                    'errMsg': err
+                })
+            }
+            else {
+                res.redirect('/')
+                console.log('berhasil !!');
+            }
+        })
+    }
 })
 
 
 // delete data 
 // ============
 
-router.get('/delete/:id', (req,res) => {
+router.get('/delete/:id', (req, res) => {
     const sql = `DELETE FROM karyawan WHERE id = ${req.params.id}`
-    
+
     db.query(sql, (err, result) => {
         if (err) {
             console.log(err);
@@ -84,7 +106,7 @@ router.get('/delete/:id', (req,res) => {
             res.redirect('/')
         }
     })
-})  
+})
 
 
 module.exports = router;

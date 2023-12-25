@@ -13,18 +13,33 @@
 
       <form method="post" action="/add">
         <div class="mb-3">
-          <label for="exampleInputEmail1" class="form-label">Email address</label>
-          <input type="text" name="nama" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-          <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+          <label for="kolomNama" class="form-label">NAMA LENGKAP</label>
+          <input type="text" name="nama" class="form-control" id="kolomNama" aria-describedby="emailHelp">
+          <div id="kolomNama" 
+               class="invalid-feedback
+                    <% if (errMsgNama) { %> 
+                        <%= errMsgNama %>
+                    <% } else { %> 
+                        d-none
+                    <% } %>"> kolom nama tidak boleh kosong !!</div>
         </div>
         <div class="mb-3">
-          <label for="exampleInputPassword1" class="form-label">Password</label>
-          <input type="text" name="umur" class="form-control" id="exampleInputPassword1">
+           <label for="kolomUmur" class="form-label">UMUR</label>
+           <input type="text" name="umur" class="form-control" id="kolomUmur">
+           <div id="kolomUmur"
+               class="invalid-feedback 
+                    <% if (errMsgUmur) { %>
+                        <%= errMsgUmur %>
+                    <% } else { %>
+                        d-none
+                    <% } %> ">
+               kolom umur tidak boleh kosong !!
+           </div>
         </div>
         <div class="mb-3 form-check">
           <input type="checkbox" class="form-check-input" id="exampleCheck1">
           <label class="form-check-label" for="exampleCheck1">Check me out</label>
-        </div>
+        </div>  
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>
       
