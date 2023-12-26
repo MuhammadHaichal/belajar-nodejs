@@ -1,8 +1,8 @@
 const bodyParser = require('body-parser')
 const express = require('express')
 const router = express.Router()
-let validator = require('validator')
 const db = require('../database')
+let validator = require('validator')
 
 // setting body-parser
 const urlencoded = bodyParser.urlencoded({ extended: true })
@@ -17,13 +17,10 @@ const bodyjson = bodyParser.json()
 router.get('/', (req, res) => {
     const sql = 'SELECT * FROM karyawan'
     db.query(sql, (err, result) => {
-        if (err == null) {
-            console.log('maaf tidak ada data karyawan');
-        }
-        else {
-            const parse = JSON.parse(JSON.stringify(result))
-            res.render('index', { 'hasil': parse, 'title': 'data karyawan' })
-        }
+
+        const parse = JSON.parse(JSON.stringify(result))
+        res.render('index', { 'hasil': parse, 'title': 'data karyawan' })
+
     })
 })
 
@@ -37,7 +34,7 @@ router.post('/', urlencoded, (req, res) => {
             res.render('index', { 'hasil': result, 'title': 'data karyawan' })
         }
     })
-}):==
+})
 
 
 
@@ -49,6 +46,8 @@ router.get('/add', (req, res) => {
         'title': title,
         'errMsgNama': '',
         'errMsgUmur': '',
+        'errMsgNamaInput': '',
+        'errMsgUmurInput': '',
     })
 })
 
@@ -62,7 +61,9 @@ router.post('/add', urlencoded, (req, res) => {
         res.render('tambahData', {
             'title': title,
             'errMsgNama': 'd-block',
-            'errMsgUmur': 'd-block',
+            'errMsgNamaInput': 'is-invalid',
+            'errMsgUmur': '',
+            'errMsgUmurInput': '',
         })
     }
 
@@ -70,10 +71,12 @@ router.post('/add', urlencoded, (req, res) => {
         res.render('tambahData', {
             'title': title,
             'errMsgUmur': 'd-block',
-            'errMsgNama': 'd-block',
+            'errMsgUmurInput': 'is-invalid',
+            'errMsgNama': '',
+            'errMsgNamaInput': '',
         })
     }
-    
+
     else {
         const sql = `INSERT INTO karyawan(nama, umur) VALUES ( '${req.body.nama}', ${req.body.umur})`
         db.query(sql, (err, result) => {
@@ -85,7 +88,7 @@ router.post('/add', urlencoded, (req, res) => {
             }
             else {
                 res.redirect('/')
-                console.log('berhasil !!');
+                console.log('berhasil insert data !!');
             }
         })
     }
@@ -94,7 +97,6 @@ router.post('/add', urlencoded, (req, res) => {
 
 // delete data 
 // ============
-
 router.get('/delete/:id', (req, res) => {
     const sql = `DELETE FROM karyawan WHERE id = ${req.params.id}`
 
