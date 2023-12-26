@@ -56,7 +56,9 @@ router.post('/add', urlencoded, (req, res) => {
     let title = 'TAMBAH KARYAWAN';
     const getName = req.body.nama;
     const getUmur = req.body.umur;
-
+    
+    // cek validasi jika user tidak input
+    
     if (validator.isEmpty(getName)) {
         res.render('tambahData', {
             'title': title,
@@ -76,7 +78,7 @@ router.post('/add', urlencoded, (req, res) => {
             'errMsgNamaInput': '',
         })
     }
-
+    
     else {
         const sql = `INSERT INTO karyawan(nama, umur) VALUES ( '${req.body.nama}', ${req.body.umur})`
         db.query(sql, (err, result) => {
