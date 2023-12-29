@@ -39,43 +39,42 @@
                    </form>
                </div>         
             </div>             
+            
+            <% if (hasil) { %>
+               <table class="table table-hover my-4">
+                   <thead>
+                     <tr>
+                       <th scope="col">ID</th>
+                       <th scope="col">NAMA</th>
+                       <th scope="col">UMUR</th>
+                       <th scope="col">ACTION</th>
+                     </tr>
+                   </thead>
+                   <tbody>
+                    
+                    <% hasil.forEach((data) => { %>
+                     <tr class="justify-content-center align-items-center">
+                       <th scope="row"><%= data.id %></th>
+                       <td><%= data.nama %></td>
+                       <td><%= data.umur %></td>
+                     
+                       <td>
+                          <div class="row gap-2">
+                              <div class="col-auto">
+                                    <button onclick="editData()" class="btn btn-warning">EDIT</button>
+                              </div>
+                              <div class="col-auto">
+                                    <button onclick="removeData()" class="btn btn-danger">REMOVE</button>
+                              </div>
+                          </div>
+                       </td>
+                     </tr>
+                    <% }) %>
+                   </tbody>
+                </table>
+            <% } %>
+            
         
-           <table class="table table-hover my-4">
-               <thead>
-                 <tr>
-                   <th scope="col">ID</th>
-                   <th scope="col">NAMA</th>
-                   <th scope="col">UMUR</th>
-                   <th scope="col">ACTION</th>
-                 </tr>
-               </thead>
-               <tbody>
-                
-                <% hasil.forEach((data) => { %>
-                 <tr class="justify-content-center align-items-center">
-                   <th scope="row"><%= data.id %></th>
-                   <td><%= data.nama %></td>
-                   <td><%= data.umur %></td>
-                 
-                   <td>
-                      <div class="row gap-2">
-                          <div class="col-auto">
-                                <button onclick="editData()" class="btn btn-warning">EDIT</button>
-                          </div>
-                          <div class="col-auto">
-                                <button onclick="removeData()" class="btn btn-danger">REMOVE</button>
-                          </div>
-                      </div>
-                   </td>
-                 </tr>
-                <% }) %>
-                
-               </tbody>
-            </table>
         </div>
-        
-        
-        
-        
    </body>
 </html>
