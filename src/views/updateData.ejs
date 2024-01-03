@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <%- include('bootstrap') %>
+    <title><%= title %></title>
+</head>
+
+<body>
+    <div class="container mt-5">
+        <h1><%= title %></h1>
+
+        <form class="form" method="post" action="/update">
+            
+            <!-- kolom id -->
+            <div class="mb-3">
+                <label for="kolomNama" class="form-label">ID</label>
+            
+                <input type="text" id="kolomNama" name="id" class="form-control
+                    ">
+            </div>
+            
+            
+            <!-- kolom nama -->
+            <div class="mb-3">
+                <label for="kolomNama" class="form-label">NAMA LENGKAP</label>
+
+
+                <input type="text" id="kolomNama" name="nama" class="form-control
+                    ">
+                
+            </div>
+
+
+            <!-- kolom umur -->
+            <div class="mb-3">
+                <label for="kolomUmur" class="form-label">UMUR</label>
+                <input max="30" type="number" name="umur" id="kolomUmur" class="form-control">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+
+    </div>
+
+</body>
+
+</html>
