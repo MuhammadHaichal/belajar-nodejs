@@ -9,7 +9,6 @@ const urlencoded = bodyParser.urlencoded({ extended: true })
 const bodyjson = bodyParser.json()
 
 
-
 // select data
 // ===========
 const title = 'data karyawan';
@@ -33,6 +32,7 @@ router.post('/', urlencoded, (req, res) => {
         })
     })
 })
+
 
 
 
@@ -86,6 +86,36 @@ router.post('/add', urlencoded, (req, res) => {
         })
     }
 })
+
+
+
+
+
+// update data
+// ===========
+let updateTitle = 'UPDATE DATA KARYAWAN'
+router.get('/update', (req, res) => {
+    res.render('updateData', { 'title': updateTitle })
+})
+
+
+router.post('/update', urlencoded, (req, res) => {
+    const sql = `UPDATE karyawan SET nama = '${req.body.nama}', umur = ${req.body.umur} WHERE id = ${req.body.id}`
+    console.log(sql);
+    db.query(sql, (err, result) => {
+        if (err) {
+            console.log('error update data')
+        }
+        else {
+            res.redirect('/')
+        }
+    })
+})
+
+
+
+
+
 
 
 // delete data 
